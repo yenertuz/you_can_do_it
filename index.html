@@ -8,10 +8,19 @@
             .hidden, .hidden * {
                 display: none;
             }
+
+            * {
+                font-family: sans-serif;
+                text-align: justify;
+            }
+
+            #acceptance {
+                padding: 10px;
+            }
         </style>
     </header>
     <body>
-    <div id="input">
+    <div id="input" class="hidden">
         <div id="intro">
             You deserve some motivation!
         </div>
@@ -29,15 +38,49 @@
     </div>
 
     <div id="acceptance" class="hidden">
-        Dear <span id="acceptance-name"></span>,
-        <br>
-        It is my pleasure to inform you that he Admissions Committee of <span id="acceptance-college"></span> School of Medicine has voted to accept you as a member of the entering class. We believe you will appreciate and contribute in a positive way to the quality of medical education we are committed to provide.
-        <br>
-        All of us at the school of medicine congratulate and welcome you as a member of the entering class. We anticipate that you will have positive, challenging and successful years at <span id="acceptange-college-2"></span><div class="">
-        <br>
-        Best regards,
+        Dear <span id="name-output"></span>,
+        <br><br>
+        It is my pleasure to inform you that he Admissions Committee of <span id="school-output"></span> School of Medicine has voted to accept you as a member of the entering class. We believe you will appreciate and contribute in a positive way to the quality of medical education we are committed to provide.
+        <br><br>
+        All of us at the school of medicine congratulate and welcome you as a member of the entering class. We anticipate that you will have positive, challenging and successful years at <span id="college-output-2"></span>
+        <br><br>
+        Best regards,<br>
         Associate Dean of Admissions
         </div>
     </div>
     </body>
+    <script>
+
+            function render_letter(name=null, school=null) {
+                if (name == null || typeof(name) != 'string') {
+                    name = document.getElementById("name-input").value;
+                }
+                if (school == null) {
+                    school = document.getElementById("school-input").value;
+                }
+                document.getElementById("input").classList.add("hidden");
+                document.getElementById("acceptance").classList.remove("hidden");
+                document.getElementById("school-output").innerText = school;
+                document.getElementById("college-output-2").innerText = school;
+                document.getElementById("name-output").innerText = name;
+            }
+    
+            function main () {
+                const urlParams = new URLSearchParams(window.location.search);
+                let name = urlParams.get('name');
+                let school = urlParams.get('school');
+                if (name && school) {
+                    name = name.replace(/\_/g, " ");
+                    school = school.replace(/\_/g, "");
+                    render_letter(name, school);
+                } else {
+                    document.getElementById("input").classList.remove("hidden");
+                    document.getElementById("button").onclick = render_letter;
+                }
+            }
+    
+            main();
+    
+        </script>
+    
 </html>
